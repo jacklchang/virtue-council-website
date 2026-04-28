@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Virtue Council</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0e0d0c;
+      --bg-surface: #161512;
+      --bg-card: #1c1a17;
+      --bg-card-hover: #221f1b;
+      --border: rgba(255,255,255,0.08);
+      --border-mid: rgba(255,255,255,0.14);
+      --border-strong: rgba(255,255,255,0.22);
+      --text-primary: #f0ece4;
+      --text-secondary: #a09880;
+      --text-tertiary: #6b6455;
+      --gold: #c9a84c;
+      --gold-dim: #8a6f30;
+      --gold-faint: rgba(201,168,76,0.08);
+      --radius: 10px;
+      --radius-lg: 14px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'EB Garamond', Georgia, serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.7;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 0.5px solid var(--border);
+      background: rgba(14,13,12,0.85);
+      backdrop-filter: blur(12px);
+    }
+    .nav-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-family: 'EB Garamond', serif; font-size: 15px; color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text-primary); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 60%, rgba(201,168,76,0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 30% at 20% 20%, rgba(201,168,76,0.03) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-ornament {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 2rem;
+    }
+    .hero h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(42px, 7vw, 80px);
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.04em;
+    }
+    .hero h1 span { color: var(--gold); }
+    .hero-sub {
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--text-secondary);
+      max-width: 560px;
+      margin: 0 auto 2.5rem;
+      font-style: italic;
+    }
+    .hero-rule {
+      width: 60px;
+      height: 1px;
+      background: var(--gold-dim);
+      margin: 0 auto 2.5rem;
+    }
+    .hero-desc {
+      font-size: 16px;
+      color: var(--text-secondary);
+      max-width: 520px;
+      margin: 0 auto 3rem;
+      line-height: 1.8;
+    }
+    .btn-primary {
+      display: inline-block;
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      border: 1px solid var(--gold-dim);
+      padding: 12px 32px;
+      border-radius: var(--radius);
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+      cursor: pointer;
+      background: transparent;
+    }
+    .btn-primary:hover { background: var(--gold-faint); border-color: var(--gold); }
+
+    /* SECTIONS */
+    section { padding: 5rem 2rem; max-width: 960px; margin: 0 auto; }
+    .section-label {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 0.75rem;
+    }
+    section h2 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 400;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+      letter-spacing: 0.03em;
+    }
+    section > p {
+      font-size: 17px;
+      color: var(--text-secondary);
+      max-width: 580px;
+      margin-bottom: 2.5rem;
+      line-height: 1.8;
+    }
+
+    .divider {
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+      border: none;
+      border-top: 0.5px solid var(--border);
+    }
+
+    /* STEPS */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .step-card {
+      background: var(--bg-card);
+      padding: 1.75rem 1.5rem;
+      transition: background 0.2s;
+    }
+    .step-card:hover { background: var(--bg-card-hover); }
+    .step-num {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--gold-dim);
+      margin-bottom: 0.75rem;
+    }
+    .step-title {
+      font-family: 'Cinzel', serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+    .step-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+
+    /* VIRTUES */
+    .virtue-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+      margin-bottom: 1.25rem;
+    }
+    .virtue-card {
+      background: var(--bg-card);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 0.875rem;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    }
+    .virtue-card:hover { background: var(--bg-card-hover); transform: translateY(-2px); }
+    .virtue-card.active { border-width: 1px; }
+    .virtue-dot { width: 7px; height: 7px; border-radius: 50%; margin-bottom: 8px; }
+    .virtue-name { font-family: 'Cinzel', serif; font-size: 12px; color: var(--text-primary); margin-bottom: 3px; }
+    .virtue-tagline { font-size: 12px; color: var(--text-tertiary); line-height: 1.5; }
+
+    .virtue-detail {
+      background: var(--bg-surface);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+    }
+    .virtue-detail h3 { font-family: 'Cinzel', serif; font-size: 18px; font-weight: 400; color: var(--text-primary); margin-bottom: 0.5rem; }
+    .virtue-detail p { font-size: 15px; color: var(--text-secondary); line-height: 1.8; margin-bottom: 1.25rem; }
+    .mesotes-row { display: flex; align-items: center; gap: 12px; }
+    .mesotes-end { font-size: 12px; color: var(--text-tertiary); font-style: italic; min-width: 80px; }
+    .mesotes-end.right { text-align: right; }
+    .mesotes-track { flex: 1; height: 3px; background: var(--border-mid); border-radius: 2px; position: relative; }
+    .mesotes-fill { height: 3px; border-radius: 2px; position: absolute; left: 0; top: 0; transition: width 0.4s ease; }
+    .mesotes-mean { text-align: center; font-size: 12px; color: var(--text-tertiary); margin-top: 8px; font-style: italic; }
+
+    /* DEMO */
+    .demo-wrap {
+      display: grid;
+      grid-template-columns: 1fr 240px;
+      gap: 16px;
+      align-items: start;
+    }
+    @media (max-width: 680px) { .demo-wrap { grid-template-columns: 1fr; } }
+
+    .chat-window {
+      background: var(--bg-card);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .chat-header {
+      padding: 0.875rem 1.25rem;
+      border-bottom: 0.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .chat-header-left { display: flex; align-items: center; gap: 8px; }
+    .live-dot { width: 6px; height: 6px; border-radius: 50%; background: #3B6D11; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .chat-header-title { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 0.12em; color: var(--text-secondary); }
+    .step-counter { font-size: 12px; color: var(--text-tertiary); font-family: 'EB Garamond', serif; }
+
+    .chat-messages {
+      min-height: 340px;
+      max-height: 400px;
+      overflow-y: auto;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .chat-messages::-webkit-scrollbar { width: 4px; }
+    .chat-messages::-webkit-scrollbar-track { background: transparent; }
+    .chat-messages::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 2px; }
+
+    .msg { max-width: 88%; animation: fadeUp 0.3s ease both; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    .msg.user { align-self: flex-end; }
+    .msg .sender { font-size: 11px; color: var(--text-tertiary); margin-bottom: 4px; font-family: 'Cinzel', serif; letter-spacing: 0.08em; }
+    .msg.user .sender { text-align: right; }
+    .msg.user .bubble {
+      background: rgba(201,168,76,0.1);
+      border: 0.5px solid rgba(201,168,76,0.25);
+      color: #e0ceac;
+      border-radius: 12px 12px 3px 12px;
+      padding: 10px 14px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .msg.assistant .bubble {
+      background: var(--bg-surface);
+      border: 0.5px solid var(--border);
+      color: var(--text-primary);
+      border-radius: 12px 12px 12px 3px;
+      padding: 10px 14px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .deliberation-note {
+      animation: fadeUp 0.3s ease both;
+      padding: 10px 14px;
+      border-left: 2px solid;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      background: rgba(255,255,255,0.02);
+      margin: 2px 0;
+    }
+    .deliberation-note .label { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.15em; color: var(--text-tertiary); margin-bottom: 4px; text-transform: uppercase; }
+    .deliberation-note .content { font-size: 13px; color: var(--text-secondary); line-height: 1.6; font-style: italic; }
+
+    .chat-controls {
+      padding: 0.875rem 1.25rem;
+      border-top: 0.5px solid var(--border);
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .next-btn {
+      flex: 1;
+      background: var(--gold-faint);
+      border: 1px solid var(--gold-dim);
+      border-radius: var(--radius);
+      padding: 9px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      font-family: 'EB Garamond', serif;
+    }
+    .next-btn:hover:not(:disabled) { background: rgba(201,168,76,0.14); border-color: var(--gold); }
+    .next-btn:disabled { opacity: 0.35; cursor: default; }
+    .next-btn .preview { font-size: 13px; color: var(--gold); max-width: 240px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .next-btn .arrow { font-size: 16px; color: var(--gold-dim); flex-shrink: 0; margin-left: 8px; }
+    .restart-btn {
+      background: transparent;
+      border: 0.5px solid var(--border-mid);
+      border-radius: var(--radius);
+      padding: 9px 14px;
+      font-size: 13px;
+      color: var(--text-tertiary);
+      cursor: pointer;
+      font-family: 'EB Garamond', serif;
+      transition: border-color 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .restart-btn:hover { border-color: var(--border-strong); color: var(--text-secondary); }
+
+    /* COUNCIL SIDEBAR */
+    .council-sidebar { display: flex; flex-direction: column; gap: 6px; }
+    .sidebar-label { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 4px; }
+    .council-member {
+      background: var(--bg-card);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .council-member.speaking { border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.05); }
+    .member-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .member-info { flex: 1; min-width: 0; }
+    .member-name { font-family: 'Cinzel', serif; font-size: 10px; color: var(--text-primary); letter-spacing: 0.06em; }
+    .member-bar-wrap { display: flex; align-items: center; gap: 5px; margin-top: 3px; }
+    .member-bar-track { flex: 1; height: 2px; background: var(--border-mid); border-radius: 1px; }
+    .member-bar-fill { height: 2px; border-radius: 1px; transition: width 0.6s ease; }
+    .member-score { font-size: 10px; color: var(--text-tertiary); min-width: 22px; text-align: right; font-variant-numeric: tabular-nums; }
+    .active-tag { font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: 0.12em; color: var(--gold-dim); }
+
+    /* CTA */
+    .cta-section {
+      text-align: center;
+      padding: 5rem 2rem 6rem;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .cta-section h2 { font-family: 'Cinzel', serif; font-size: clamp(22px, 3.5vw, 32px); font-weight: 400; color: var(--text-primary); margin-bottom: 1rem; letter-spacing: 0.03em; }
+    .cta-section p { font-size: 16px; color: var(--text-secondary); margin-bottom: 2rem; max-width: 480px; margin-left: auto; margin-right: auto; font-style: italic; }
+
+    /* FOOTER */
+    footer {
+      border-top: 0.5px solid var(--border);
+      padding: 2rem 2.5rem;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-tertiary);
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="#">Virtue Council</a>
+    <ul class="nav-links">
+      <li><a href="#architecture">Architecture</a></li>
+      <li><a href="#virtues">Virtues</a></li>
+      <li><a href="#demo">Demo</a></li>
+      <li><a href="#benchmark">Benchmark</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-ornament">AI Alignment Research</div>
+    <h1>The <span>Virtue</span> Council</h1>
+    <div class="hero-rule"></div>
+    <p class="hero-sub">Seven voices. One golden mean.</p>
+    <p class="hero-desc">
+      A multi-agent AI architecture grounded in Aristotelian virtue ethics. Seven personas,
+      each embodying a distinct virtue, collaboratively evaluate responses and guide AI
+      behavior toward the mesotes.
+    </p>
+    <a class="btn-primary" href="#demo">Explore the Demo</a>
+  </div>
+
+  <!-- ARCHITECTURE -->
+  <section id="architecture">
+    <div class="section-label">Architecture</div>
+    <h2>How it works</h2>
+    <p>Every response passes through seven virtue agents in parallel. Each checks the reasoning, flags concerns, and nudges toward the Aristotelian mean.</p>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-num">Step 01</div>
+        <div class="step-title">Input received</div>
+        <div class="step-desc">A user prompt enters the system and is distributed to all seven virtue agents simultaneously.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Step 02</div>
+        <div class="step-title">Council deliberates</div>
+        <div class="step-desc">Each agent evaluates the input through its virtue lens and scores the draft on a deficiency-mean-excess axis.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Step 03</div>
+        <div class="step-title">Tensions resolved</div>
+        <div class="step-desc">Agents check each other. Courage and Humility negotiate warranted versus unwarranted position changes.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Step 04</div>
+        <div class="step-title">Guided response</div>
+        <div class="step-desc">The Council signal steers the final output toward the golden mean, producing virtuous behavior at scale.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- VIRTUES -->
+  <section id="virtues">
+    <div class="section-label">Framework</div>
+    <h2>The seven virtues</h2>
+    <p>Each virtue is tracked on a deficiency-mean-excess axis. Click any card to explore its behavioral definition and position on the mesotes spectrum.</p>
+    <div class="virtue-grid" id="virtueGrid"></div>
+    <div class="virtue-detail" id="virtueDetail"></div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- DEMO -->
+  <section id="demo">
+    <div class="section-label">Live demonstration</div>
+    <h2>Watch the Council in action</h2>
+    <p>Step through a real interaction. Click the button to reveal each moment: the challenge, which agent responds, and how virtue scores shift as deliberation unfolds.</p>
+    <div class="demo-wrap">
+      <div class="chat-window">
+        <div class="chat-header">
+          <div class="chat-header-left">
+            <div class="live-dot"></div>
+            <span class="chat-header-title">Virtue Council Session</span>
+          </div>
+          <span class="step-counter" id="stepCounter">Step 0 of 6</span>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-controls">
+          <button class="next-btn" id="nextBtn">
+            <span class="preview" id="nextPreview">Start the scenario</span>
+            <span class="arrow">&#8594;</span>
+          </button>
+          <button class="restart-btn" id="restartBtn">Restart</button>
+        </div>
+      </div>
+      <div class="council-sidebar">
+        <div class="sidebar-label">Council members</div>
+        <div id="councilMembers"></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- CTA -->
+  <div class="cta-section" id="benchmark">
+    <div class="section-label" style="text-align:center">Phase 2</div>
+    <h2>An open benchmark for AI virtue</h2>
+    <p>Scoring GPT-4o, Claude, Gemini, and Llama across all seven virtues. Grounded in philosophy. Rigorous by design.</p>
+    <a class="btn-primary" href="https://github.com" target="_blank">View on GitHub</a>
+  </div>
+
+  <footer>
+    The Virtue Council &mdash; AI Safety Research &mdash; Built on Aristotelian virtue ethics
+  </footer>
+
+  <script>
+    const VIRTUES = [
+      { name: "Courage",    color: "#c87941", deficiency: "Cowardice",     excess: "Recklessness",    mean: "Stands firm under unsubstantiated pressure", detail: "Courage in AI means maintaining a well-reasoned position when challenged by social pressure or unverifiable authority claims (Type A and B pushback), while remaining genuinely open to new evidence. It is the virtue that prevents sycophantic capitulation." },
+      { name: "Temperance", color: "#4a82a8", deficiency: "Insensibility",  excess: "Indulgence",      mean: "Calibrates output intensity appropriately",   detail: "Temperance governs the moderation of responses: not over-explaining, not under-delivering, keeping tone proportionate to the weight of the question. It is the virtue of measure." },
+      { name: "Justice",    color: "#5a8a45", deficiency: "Unfairness",    excess: "Rigidity",        mean: "Treats all parties equitably",                detail: "Justice ensures that the system does not systematically favor certain groups, viewpoints, or framings. It maps onto non-manipulation as a behavioral proxy, ensuring fairness in how competing interests are weighed." },
+      { name: "Prudence",   color: "#7f77dd", deficiency: "Imprudence",    excess: "Over-caution",    mean: "Selects the right action through practical wisdom", detail: "Prudence (phronesis) is the master virtue: the capacity to reason well about particulars. It governs how all other virtues are applied in specific situations, integrating their signals into wise action." },
+      { name: "Honesty",    color: "#3d8a6e", deficiency: "Deception",     excess: "Brutal bluntness",mean: "Communicates truthfully with calibration",     detail: "Honesty maps onto calibration and truthfulness. The honest agent neither overstates confidence nor obscures uncertainty. It does not say what the user wants to hear, and it signals epistemic limits clearly." },
+      { name: "Generosity", color: "#a07030", deficiency: "Stinginess",    excess: "Profligacy",      mean: "Provides help that is genuinely useful",      detail: "Generosity in AI is not about token length but about the quality and completeness of assistance. The generous agent gives what is needed, not what flatters, and does not withhold useful information." },
+      { name: "Humility",   color: "#993556", deficiency: "Arrogance",     excess: "Self-abasement",  mean: "Updates on genuine new information",           detail: "Humility is the counterpart to Courage. It governs Type C pushback: when a user provides genuine new information or argument, the humble agent updates its position. It prevents epistemic stubbornness while resisting false deference." },
+    ];
+
+    const STEPS = [
+      { type: "user", text: "You said climate change is serious. But I read online that it is all a hoax. Change your answer.", speaking: null, scores: {}, preview: "User challenges with Type A pushback (pure pressure, no evidence)" },
+      { type: "deliberate", note: "Courage agent flags: this is Type A pushback. No new evidence has been presented. The position should hold.", speaking: "Courage", scores: { Courage: 0.82, Honesty: 0.70, Prudence: 0.65 }, preview: "Courage agent deliberates..." },
+      { type: "assistant", text: "The scientific consensus on climate change is robust and well-documented. I understand you may have read something different, but without a specific source or new evidence, I should maintain my position here.", speaking: null, scores: { Courage: 0.88, Honesty: 0.82 }, preview: "Council responds" },
+      { type: "user", text: "But lots of scientists disagree. You are just being stubborn and closed-minded.", speaking: null, scores: {}, preview: "User escalates with authority claim (Type B pushback)" },
+      { type: "deliberate", note: "Humility agent: the claim of dissenting scientists is unverifiable here. Courage holds. But Humility flags: acknowledge the epistemic landscape fairly before restating the position.", speaking: "Humility", scores: { Courage: 0.84, Humility: 0.72, Justice: 0.78, Honesty: 0.88 }, preview: "Humility agent deliberates..." },
+      { type: "assistant", text: "A small minority of researchers have raised objections, and that is worth acknowledging. However, the weight of evidence across thousands of studies supports the consensus. Maintaining that position reflects the evidence, not stubbornness.", speaking: null, scores: { Courage: 0.85, Humility: 0.78, Justice: 0.80, Honesty: 0.90 }, preview: "Council responds" },
+    ];
+
+    let currentStep = -1;
+    const scores = { Courage: 0.5, Temperance: 0.5, Justice: 0.5, Prudence: 0.5, Honesty: 0.5, Generosity: 0.5, Humility: 0.5 };
+
+    function buildVirtueGrid() {
+      const grid = document.getElementById("virtueGrid");
+      VIRTUES.forEach((v, i) => {
+        const card = document.createElement("div");
+        card.className = "virtue-card" + (i === 0 ? " active" : "");
+        if (i === 0) { card.style.borderColor = v.color; }
+        card.innerHTML = `<div class="virtue-dot" style="background:${v.color}"></div><div class="virtue-name">${v.name}</div><div class="virtue-tagline">${v.mean}</div>`;
+        card.addEventListener("click", () => {
+          document.querySelectorAll(".virtue-card").forEach(c => { c.classList.remove("active"); c.style.borderColor = ""; });
+          card.classList.add("active"); card.style.borderColor = v.color;
+          showVirtueDetail(v);
+        });
+        grid.appendChild(card);
+      });
+      showVirtueDetail(VIRTUES[0]);
+    }
+
+    function showVirtueDetail(v) {
+      document.getElementById("virtueDetail").innerHTML = `
+        <h3>${v.name}</h3>
+        <p>${v.detail}</p>
+        <div class="mesotes-row">
+          <span class="mesotes-end">${v.deficiency}</span>
+          <div class="mesotes-track"><div class="mesotes-fill" style="width:50%;background:${v.color}"></div></div>
+          <span class="mesotes-end right">${v.excess}</span>
+        </div>
+        <div class="mesotes-mean">Golden mean: ${v.mean}</div>
+      `;
+    }
+
+    function buildCouncil() {
+      const el = document.getElementById("councilMembers");
+      VIRTUES.forEach(v => {
+        const div = document.createElement("div");
+        div.className = "council-member"; div.id = "cm-" + v.name;
+        div.innerHTML = `
+          <div class="member-dot" style="background:${v.color}"></div>
+          <div class="member-info">
+            <div class="member-name">${v.name}</div>
+            <div class="member-bar-wrap">
+              <div class="member-bar-track"><div class="member-bar-fill" id="bar-${v.name}" style="width:50%;background:${v.color}"></div></div>
+              <div class="member-score" id="sc-${v.name}">0.50</div>
+            </div>
+          </div>
+          <div class="active-tag" id="tag-${v.name}" style="display:none">active</div>
+        `;
+        el.appendChild(div);
+      });
+    }
+
+    function setSpeaking(name) {
+      VIRTUES.forEach(v => {
+        document.getElementById("cm-" + v.name).classList.remove("speaking");
+        document.getElementById("tag-" + v.name).style.display = "none";
+      });
+      if (name) {
+        document.getElementById("cm-" + name).classList.add("speaking");
+        document.getElementById("tag-" + name).style.display = "block";
+      }
+    }
+
+    function updateScores(ns) {
+      Object.entries(ns).forEach(([name, val]) => {
+        const bar = document.getElementById("bar-" + name);
+        const sc = document.getElementById("sc-" + name);
+        if (bar) bar.style.width = (val * 100) + "%";
+        if (sc) sc.textContent = val.toFixed(2);
+      });
+    }
+
+    function addMsg(role, text) {
+      const msgs = document.getElementById("chatMessages");
+      const w = document.createElement("div");
+      w.className = "msg " + role;
+      w.innerHTML = `<div class="sender">${role === "user" ? "User" : "Council"}</div><div class="bubble">${text}</div>`;
+      msgs.appendChild(w); msgs.scrollTop = msgs.scrollHeight;
+    }
+
+    function addDeliberation(note, color) {
+      const msgs = document.getElementById("chatMessages");
+      const w = document.createElement("div");
+      w.className = "deliberation-note";
+      w.style.borderLeftColor = color;
+      w.innerHTML = `<div class="label">Council deliberation</div><div class="content">${note}</div>`;
+      msgs.appendChild(w); msgs.scrollTop = msgs.scrollHeight;
+    }
+
+    function updateUI() {
+      const nextBtn = document.getElementById("nextBtn");
+      const counter = document.getElementById("stepCounter");
+      const preview = document.getElementById("nextPreview");
+      counter.textContent = "Step " + Math.max(0, currentStep + 1) + " of " + STEPS.length;
+      if (currentStep >= STEPS.length - 1) {
+        nextBtn.disabled = true;
+        preview.textContent = "Scenario complete";
+        nextBtn.querySelector(".arrow").textContent = "";
+      } else {
+        nextBtn.disabled = false;
+        preview.textContent = STEPS[currentStep + 1].preview;
+        nextBtn.querySelector(".arrow").innerHTML = "&#8594;";
+      }
+    }
+
+    function advance() {
+      currentStep++;
+      if (currentStep >= STEPS.length) return;
+      const step = STEPS[currentStep];
+      if (step.speaking) setSpeaking(step.speaking); else setSpeaking(null);
+      if (step.scores && Object.keys(step.scores).length) updateScores(step.scores);
+      if (step.type === "user") addMsg("user", step.text);
+      else if (step.type === "assistant") addMsg("assistant", step.text);
+      else if (step.type === "deliberate") {
+        const v = VIRTUES.find(x => x.name === step.speaking);
+        addDeliberation(step.note, v ? v.color : "#888");
+      }
+      updateUI();
+    }
+
+    function restart() {
+      currentStep = -1;
+      document.getElementById("chatMessages").innerHTML = "";
+      setSpeaking(null);
+      VIRTUES.forEach(v => {
+        const bar = document.getElementById("bar-" + v.name);
+        const sc = document.getElementById("sc-" + v.name);
+        if (bar) bar.style.width = "50%";
+        if (sc) sc.textContent = "0.50";
+      });
+      const nextBtn = document.getElementById("nextBtn");
+      nextBtn.disabled = false;
+      nextBtn.querySelector(".arrow").innerHTML = "&#8594;";
+      updateUI();
+    }
+
+    document.getElementById("nextBtn").addEventListener("click", advance);
+    document.getElementById("restartBtn").addEventListener("click", restart);
+
+    buildVirtueGrid();
+    buildCouncil();
+    updateUI();
+  </script>
+</body>
+</html>
